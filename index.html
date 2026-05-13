@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Portfolio for Jon Kwong, a strategic communicator in Salt Lake City.">
+    <title>Jon Kwong | Strategic Communications Portfolio</title>
+    <link rel="preconnect" href="https://static.wixstatic.com">
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header" aria-hidden="true"></header>
+
+    <main id="top">
+      <section class="hero" id="about">
+        <div class="hero-copy">
+          <h1>Jon Kwong</h1>
+          <p class="eyebrow location">
+            <i data-lucide="map-pin" aria-hidden="true"></i>
+            Salt Lake City, UT
+          </p>
+          <p class="role">Strategic Communicator.</p>
+          <div class="rule" aria-hidden="true"></div>
+          <p class="hero-lede">PR & Strategic Communication graduate passionate about building meaningful connections between people, ideas, and communities. I work across event communications, campaign strategy, social media, and brand engagement, with experience spanning government institutions to companies like Google.</p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="button button-primary" href="#work">
+              View My Work
+              <i data-lucide="arrow-right" aria-hidden="true"></i>
+            </a>
+            <a class="button button-secondary" href="https://drive.google.com/file/d/1flM1zfMZK-unIDX7w3FOoRvPoTqaqZUU/view?usp=sharing" target="_blank" rel="noreferrer">
+              <i data-lucide="download" aria-hidden="true"></i>
+              Download Resume
+            </a>
+          </div>
+        </div>
+        <div class="hero-media" aria-hidden="true">
+          <img src="https://static.wixstatic.com/media/142a3b_2adaf98da18a4f9abc2b1c4f335558cc~mv2.jpg/v1/crop/x_85,y_0,w_3112,h_4377/fill/w_1038,h_1460,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/profile-pic.jpg" alt="">
+        </div>
+        <blockquote class="hero-quote">
+          Good communication builds understanding. Great communication inspires action.
+        </blockquote>
+      </section>
+
+      <section class="overview" id="work">
+        <div class="section-heading">
+          <p class="eyebrow">Featured Projects</p>
+          <h2>Campaigns. Strategy. Impact.</h2>
+        </div>
+        <div class="project-grid" id="projectGrid"></div>
+
+        <div class="lower-grid">
+          <section class="panel written-panel" id="writing" aria-labelledby="writing-title">
+            <p class="eyebrow panel-title" id="writing-title">Written Works</p>
+            <div class="writing-list" id="writingList"></div>
+            <div class="written-footer">
+              <a class="gallery-link" href="#writing">
+                View All Written Works
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </section>
+
+          <section class="panel photography-panel" id="photography" aria-labelledby="photography-title">
+            <p class="eyebrow panel-title" id="photography-title">Photography</p>
+            <div class="photo-preview">
+              <img src="https://static.wixstatic.com/media/142a3b_f7deaef43edb435c8113973e19bd808f~mv2.webp/v1/fill/w_840,h_1119,q_90,enc_avif,quality_auto/142a3b_f7deaef43edb435c8113973e19bd808f~mv2.webp" alt="Landscape photograph by Jon Kwong">
+              <img src="https://static.wixstatic.com/media/142a3b_2f2a981c52aa46888b7e58de175aa712~mv2.jpg/v1/fill/w_897,h_1194,q_90,enc_avif,quality_auto/142a3b_2f2a981c52aa46888b7e58de175aa712~mv2.jpg" alt="Cinematic photograph by Jon Kwong">
+            </div>
+            <div class="photo-panel-footer">
+              <p>Capturing places, perspectives, and the quiet moments in between.</p>
+              <button class="gallery-link" type="button" data-open-gallery>
+                View Gallery
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer" id="contact">
+      <div class="footer-intro">
+        <h2>Let's connect.</h2>
+        <p>I'm always open to discussing new ideas, opportunities, and ways to collaborate.</p>
+      </div>
+      <div class="footer-links" aria-label="Social links">
+        <a class="footer-link" href="https://www.linkedin.com/in/jonthekwong" target="_blank" rel="noreferrer">
+          <i data-lucide="network" aria-hidden="true"></i>
+          <span>LinkedIn</span>
+        </a>
+        <a class="footer-link" href="https://www.instagram.com/momentswithjon" target="_blank" rel="noreferrer">
+          <i data-lucide="camera" aria-hidden="true"></i>
+          <span>Instagram</span>
+        </a>
+        <a class="footer-link" href="https://www.tiktok.com/@momentswithjon" target="_blank" rel="noreferrer">
+          <i data-lucide="music-2" aria-hidden="true"></i>
+          <span>TikTok</span>
+        </a>
+      </div>
+      <div class="footer-contact">
+        <a href="mailto:jonthekwong@gmail.com">
+          <i data-lucide="mail" aria-hidden="true"></i>
+          <span>jonthekwong@gmail.com</span>
+        </a>
+        <span>
+          <i data-lucide="map-pin" aria-hidden="true"></i>
+          Salt Lake City, UT
+        </span>
+      </div>
+    </footer>
+
+    <dialog class="dialog" id="projectDialog" aria-labelledby="dialogTitle">
+      <div class="dialog-shell">
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Close project detail">
+          <i data-lucide="x" aria-hidden="true"></i>
+        </button>
+        <div class="dialog-content" id="projectDialogContent"></div>
+      </div>
+    </dialog>
+
+    <dialog class="dialog gallery-dialog" id="galleryDialog" aria-labelledby="galleryTitle">
+      <div class="dialog-shell">
+        <button class="dialog-close" type="button" data-close-gallery aria-label="Close gallery">
+          <i data-lucide="x" aria-hidden="true"></i>
+        </button>
+        <div class="gallery-header">
+          <div>
+            <p class="eyebrow">Photography</p>
+            <h2 id="galleryTitle">Moments with Jon</h2>
+          </div>
+          <div class="album-switch" role="tablist" aria-label="Photography collections">
+            <button class="album-tab is-active" type="button" data-album="color" role="tab" aria-selected="true">In Full Color</button>
+            <button class="album-tab" type="button" data-album="cinematic" role="tab" aria-selected="false">Life Cinematic</button>
+          </div>
+        </div>
+        <div class="photo-grid" id="photoGrid"></div>
+      </div>
+    </dialog>
+  </body>
+</html>
