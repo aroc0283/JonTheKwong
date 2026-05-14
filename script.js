@@ -152,12 +152,21 @@ function renderProjects() {
   const grid = document.querySelector("#projectGrid");
 
   grid.innerHTML = projects.map((project, index) => `
-    <article class="project-card">
-      <img src="${project.image}" alt="${project.title}">
+    <article class="project-card reveal" style="--item-index: ${index}">
+      <div class="project-media">
+        <img src="${project.image}" alt="${project.title}">
+        <span class="project-number">${project.number}</span>
+      </div>
       <div class="project-card-body">
+        <p class="eyebrow">${project.kicker}</p>
         <h3>${project.cardTitle || project.title}</h3>
+        <p>${project.summary}</p>
+        <div class="tag-row">
+          ${project.tags.map((tag) => `<span>${tag}</span>`).join("")}
+        </div>
+        <div class="project-outcome">${project.results[0]}</div>
         <button class="project-link" type="button" data-project-index="${index}">
-          View Project
+          Open Case
           ${icon("arrow-right")}
         </button>
       </div>
@@ -167,12 +176,18 @@ function renderProjects() {
 
 function renderWriting() {
   const list = document.querySelector("#writingList");
-  const docs = writingGroups.flatMap((group) => group.docs);
-  list.innerHTML = docs.map(([label, href]) => `
-    <a class="doc-item" href="${href}" target="_blank" rel="noreferrer">
-      <span>${label}</span>
-      ${icon("arrow-right")}
-    </a>
+  list.innerHTML = writingGroups.map((group) => `
+    <article class="writing-group reveal">
+      <h3>${group.title}</h3>
+      <div class="doc-list">
+        ${group.docs.map(([label, href]) => `
+          <a class="doc-item" href="${href}" target="_blank" rel="noreferrer">
+            <span>${label}</span>
+            ${icon("arrow-up-right")}
+          </a>
+        `).join("")}
+      </div>
+    </article>
   `).join("");
 }
 
@@ -190,6 +205,9 @@ function openProjectDialog(index) {
         <ul class="result-list">
           ${project.results.map((result) => `<li>${result}</li>`).join("")}
         </ul>
+        <div class="tag-row dialog-tags">
+          ${project.tags.map((tag) => `<span>${tag}</span>`).join("")}
+        </div>
         <div class="case-actions">
           ${project.actions.map(([label, href]) => `
             <a class="button" href="${href}"${externalAttrs(href)}>
@@ -280,6 +298,97 @@ function refreshIcons() {
   }
 }
 
+function setupReveal() {
+  const items = document.querySelectorAll(".reveal");
+  if (!("IntersectionObserver" in window)) {
+    items.forEach((item) => item.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.16, rootMargin: "0px 0px -6% 0px" });
+
+  items.forEach((item) => observer.observe(item));
+}
+
+function setupCounters() {
+  const counters = document.querySelectorAll("[data-count]");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const runCounter = (counter) => {
+    const target = Number(counter.dataset.count);
+    if (!Number.isFinite(target)) return;
+    if (reducedMotion) {
+      counter.textContent = target.toLocaleString();
+      return;
+    }
+
+    const duration = 1100;
+    const start = performance.now();
+    const tick = (time) => {
+      const progress = Math.min((time - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      counter.textContent = Math.round(target * eased).toLocaleString();
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  if (!("IntersectionObserver" in window)) {
+    counters.forEach(runCounter);
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      runCounter(entry.target);
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.6 });
+
+  counters.forEach((counter) => observer.observe(counter));
+}
+
+function setupParallax() {
+  const stage = document.querySelector(".hero-stage");
+  const target = document.querySelector("[data-parallax]");
+  if (!stage || !target || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  stage.addEventListener("pointermove", (event) => {
+    const rect = stage.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+    target.style.setProperty("--mx", x.toFixed(3));
+    target.style.setProperty("--my", y.toFixed(3));
+  });
+
+  stage.addEventListener("pointerleave", () => {
+    target.style.setProperty("--mx", "0");
+    target.style.setProperty("--my", "0");
+  });
+}
+
+function setupScrollProgress() {
+  const progress = document.querySelector(".scroll-progress");
+  if (!progress) return;
+
+  const update = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const amount = max > 0 ? window.scrollY / max : 0;
+    progress.style.transform = `scaleX(${Math.min(Math.max(amount, 0), 1)})`;
+  };
+
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+}
+
 renderProjects();
 renderWriting();
 renderAlbum();
@@ -287,4 +396,8 @@ setupNavigation();
 setupProjectDialog();
 setupGalleryDialog();
 setupAlbums();
+setupReveal();
+setupCounters();
+setupParallax();
+setupScrollProgress();
 refreshIcons();
